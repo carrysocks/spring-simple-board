@@ -23,10 +23,9 @@ public class PostController {
     private final PostService postService;
     private final MemberService memberService;
 
-    //postSearch.getSearchStatus().name()
     @GetMapping(value = "/posts")
     public String list(@ModelAttribute("postSearch") PostSearch postSearch, Model model){
-        List<Post> posts = postService.findPosts(postSearch.getTitle(), postSearch.getTitle());
+        List<Post> posts = postService.findPosts(postSearch.getInputString(), postSearch.getSearchStatus());
         model.addAttribute("posts", posts);
         return "posts/postList";
     }
