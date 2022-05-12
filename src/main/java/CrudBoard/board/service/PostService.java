@@ -35,9 +35,9 @@ public class PostService {
     }
 
     /** 글 검색 **/
-//    public List<Post> findPosts(PostSearch postSearch){
-//        return postRepository.findAll(postSearch);
-//    }
+    public List<Post> findPosts(String title, String status){
+        return postRepository.findPostsBySearch(title, status);
+    }
 
     public List<Post> findPostsAll(){
         return postRepository.findAllPosts();

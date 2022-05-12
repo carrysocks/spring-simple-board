@@ -4,8 +4,10 @@ import CrudBoard.board.domain.Member;
 import CrudBoard.board.domain.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -22,11 +24,31 @@ public class PostRepository {
         return em.find(Post.class, id);
     }
 
-    // 검색 기능 구현
-    // public List<Post> findAll(PostSearch postSearch){}
+     //검색 기능 구현
+    public List<Post> findPostsBySearch(String input, String status){
+        String jpql = "select p from Post p";
+
+        if(StringUtils.hasLength(input)){
+            jpql += " where p.title like :input";
+        }
+//        if(status.equals("TITLE") && StringUtils.hasLength(input)){
+//            jpql += " where p.title like :input";
+//        }
+//        else if(status.equals("CONTENT") && StringUtils.hasLength(input)){
+//            jpql += " where p.content like :input";
+//        }
+//        else if(status.equals("USERNAME") && StringUtils.hasLength(input)){
+//            jpql += " where p.username like :input";
+//        }
+        TypedQuery<Post> query = em.createQuery(jpql, Post.class).setMaxResults(1000);
+        if(StringUtils.hasLength(input)){
+            query.setParameter("input", "%" + input + "%");
+        }
+        return query.getResultList();
+    }
 
     public List<Post> findAllPosts(){
-        return em.createQuery("select m from Post m", Post.class)
+        return em.createQuery("select p from Post p", Post.class)
                 .getResultList();
     }
 
