@@ -31,8 +31,8 @@ public class MemberService {
      * 사용자 이름도 중복 불가능(구현 예정)
      */
     private void validateDuplicateMember(Member member) {
-        Optional<Member> findMember = findByUsername(member.getUsername());
-        if (!findMember.isPresent()) {
+        List<Member> findMember = findByUsername(member.getUsername());
+        if (findMember.size() > 0) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
@@ -44,8 +44,8 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
-    public Optional<Member> findByUsername(String username){
-        return Optional.ofNullable(memberRepository.findByName(username));
+    public List<Member> findByUsername(String username){
+        return memberRepository.findByName(username);
     }
 
     public List<Member> findAll(){

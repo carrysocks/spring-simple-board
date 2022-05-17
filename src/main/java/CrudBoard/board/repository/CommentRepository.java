@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -19,6 +20,13 @@ public class CommentRepository {
 
     public Comment findOne(Long id){
         return em.find(Comment.class, id);
+    }
+
+    public List<Comment> findByPostId(Long postId){
+        TypedQuery<Comment> query = em.createQuery("select c from Comment c join c.post p where p.id =:post_id",
+                Comment.class);
+        query.setParameter("post_id", postId);
+        return query.getResultList();
     }
 
     public List<Comment> findAll(){

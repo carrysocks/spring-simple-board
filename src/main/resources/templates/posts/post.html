@@ -2,44 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container">
-    <div> post page !!</div>
-    <div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>작성자</th>
-                <th>제목</th>
-                <th>내용</th>
-                <th>작성 일시</th>
-                <th>수정 일시</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="post : ${posts}">
-                <td th:text="${post.id}"></td>
-                <td th:text="${post.member.username}"></td>
-                <td th:text="${post.title}"></td>
-                <td th:text="${post.content}"></td>
-                <td>
-                    <a href="#"
-                       th:href="'javascript:cancel('+${post.id}+')'"
-                       class="btn btn-danger">삭제</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div> <!-- /container -->
+    <div th:utext="'글 제목 : ' + ${post.title}"></div>
+    <div th:utext="'작성자 : ' + ${post.member.username}"></div>
+    <div th:utext="'내용 : ' + ${post.content}"></div>
+
+    <form th:action="@{/posts/post/{post_id}(post_id = ${post.id})}" th:object="${commentForm}" class="form-inline" method="post">
+        <div class="form-group">
+            <input type="text" th:field="*{content}" class="form-control"/>
+<!--                   th:class="${#fields.hasErrors('content')}? 'form-control fieldError' : 'form-control'">-->
+<!--            <p th:if="${#fields.hasErrors('content')}"-->
+<!--               th:errors="*{content}">Incorrect date</p>-->
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">댓글 달기</button>
+    </form>
+</div>
 <script>
-    function cancel(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/posts/" + id + "/delete");
-        document.body.appendChild(form);
-        form.submit();
-    }
 </script>
 </body>
 </html>

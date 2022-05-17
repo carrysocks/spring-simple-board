@@ -39,6 +39,10 @@ public class PostService {
         return postRepository.findPostsBySearch(title, status);
     }
 
+    public Post findOne(Long postId){
+        return postRepository.findOne(postId);
+    }
+
     public List<Post> findPostsAll(){
         return postRepository.findAllPosts();
     }
