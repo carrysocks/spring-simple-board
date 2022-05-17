@@ -23,6 +23,14 @@ public class Comment extends Time{
     @JoinColumn(name = "member_id")
     private Member member;
 
+    //==댓글 생성==//
+    public static Comment createComment(Member member, String content) {
+        Comment comment = new Comment();
+        comment.setMember(member);
+        comment.setContent(content);
+        return comment;
+    }
+
     public void delete(){
 
     }

@@ -56,4 +56,9 @@ public class PostController {
         postService.deletePost(postId);
         return "redirect:/posts";
     }
+
+    @GetMapping(value = "/posts/post/{postId}")
+    public String getPost(@PathVariable("postId") Long postId){
+        return "posts/post.html";
+    }
 }
