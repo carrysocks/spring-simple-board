@@ -6,12 +6,34 @@
     <div th:utext="'작성자 : ' + ${post.member.username}"></div>
     <div th:utext="'내용 : ' + ${post.content}"></div>
 
-    <form th:action="@{/posts/post/{post_id}(post_id = ${post.id})}" th:object="${commentForm}" class="form-inline" method="post">
+    <table>
+        <thead>
+        <tr>
+            <th>댓글</th>
+            <th>작성자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.content}"></td>
+            <td th:text="${comment.member.username}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <form th:object="${commentForm}" class="form-inline" method="post">
+        <div class="form-group">
+            <select name="memberId" id="member" class="form-control">
+                <option value="">회원선택</option>
+                <option th:each="member : ${members}"
+                        th:value="${member.id}"
+                        th:text="${member.username}" />
+            </select>
+        </div>
+
         <div class="form-group">
             <input type="text" th:field="*{content}" class="form-control"/>
-<!--                   th:class="${#fields.hasErrors('content')}? 'form-control fieldError' : 'form-control'">-->
-<!--            <p th:if="${#fields.hasErrors('content')}"-->
-<!--               th:errors="*{content}">Incorrect date</p>-->
         </div>
         <button type="submit" class="btn btn-primary mb-2">댓글 달기</button>
     </form>
@@ -20,3 +42,4 @@
 </script>
 </body>
 </html>
+<!--th:action="@{/posts/post/{post_id}(post_id = ${post.id})}-->

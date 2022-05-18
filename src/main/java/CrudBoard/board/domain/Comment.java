@@ -24,9 +24,10 @@ public class Comment extends Time{
     private Member member;
 
     //==댓글 생성==//
-    public static Comment createComment(Member member, String content) {
+    public static Comment createComment(Member member, Post post, String content) {
         Comment comment = new Comment();
         comment.setMember(member);
+        comment.setPost(post);
         comment.setContent(content);
         return comment;
     }
